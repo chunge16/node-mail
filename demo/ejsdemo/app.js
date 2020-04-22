@@ -3,10 +3,12 @@ const fs  = require('fs'); //文件读写
 const path = require('path'); //路径配置
 var http = require('http');
 const {
+    format,
     parseISO,
     differenceInDays
 } = require('date-fns');
 console.log('differenceInDays', differenceInDays(new Date(), parseISO('2019-05-04')));
+console.log('format', format(new Date(), 'yyyy-MM-dd'));
 
 let lastDay = differenceInDays(new Date(), parseISO('2019-05-04'));
 //传给EJS的数据

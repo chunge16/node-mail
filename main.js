@@ -7,6 +7,7 @@ const path = require("path"); //路径配置
 const schedule = require("node-schedule"); //定时器任务库
 const config = require('./config'); //配置项
 const {
+    format,
     parseISO,
     differenceInDays
 } = require('date-fns');  // 日期插件
@@ -162,14 +163,8 @@ function getAllDataAndSendMail(){
     // how long with
     let today = new Date();
     let lastDay = differenceInDays(today, parseISO(startDay));
-    console.log('lastDay', lastDay);
 
-    let todaystr =
-      today.getFullYear() +
-      " / " +
-      (today.getMonth() + 1) +
-      " / " +
-      today.getDate();
+    let todaystr = format(today, 'yyyy-MM-dd');
     HtmlData["lastDay"] = lastDay;
     HtmlData["todaystr"] = todaystr;
 
