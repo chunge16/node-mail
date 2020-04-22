@@ -2,11 +2,17 @@ const ejs = require('ejs'); //ejs模版引擎
 const fs  = require('fs'); //文件读写
 const path = require('path'); //路径配置
 var http = require('http');
+const {
+    parseISO,
+    differenceInDays
+} = require('date-fns');
+console.log('differenceInDays', differenceInDays(new Date(), parseISO('2019-05-04')));
 
+let lastDay = differenceInDays(new Date(), parseISO('2019-05-04'));
 //传给EJS的数据
 let data={
     title:'nice to meet you~',
-    lastDay: 123,
+    lastDay,
     weatherTip: '有些热了，记得多喝热水',
     threeDaysData: [],
     todaystr: '测试',
