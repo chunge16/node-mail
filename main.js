@@ -6,6 +6,10 @@ const fs = require("fs"); //文件读写
 const path = require("path"); //路径配置
 const schedule = require("node-schedule"); //定时器任务库
 const config = require('./config'); //配置项
+const {
+    parseISO,
+    differenceInDays
+} = require('date-fns');  // 日期插件
 
 const {
     startDay,
@@ -157,9 +161,9 @@ function getAllDataAndSendMail(){
     let HtmlData = {};
     // how long with
     let today = new Date();
-    console.log(today)
-    let initDay = new Date(startDay);
-    let lastDay = Math.floor((today - initDay) / 1000 / 60 / 60 / 24);
+    let lastDay = differenceInDays(today, parseISO(startDay));
+    console.log('lastDay', lastDay);
+
     let todaystr =
       today.getFullYear() +
       " / " +
@@ -182,12 +186,15 @@ function getAllDataAndSendMail(){
     })
 }
 
+// getAllDataAndSendMail();
 
+try {
+    console.log('NodeMail: 开始等待目标时刻...');
+    let j = schedule.scheduleJob(RecurrenceRule, function() {
+        console.log("执行任务");
+        getAllDataAndSendMail();
+    });
+}catch (e) {
+    console.error(e);
+}
 
-getAllDataAndSendMail();
-
-console.log('NodeMail: 开始等待目标时刻...')
-let j = schedule.scheduleJob(RecurrenceRule, function() {
-  console.log("执行任务");
-  getAllDataAndSendMail();
-});
