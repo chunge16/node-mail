@@ -153,7 +153,7 @@ function sendMail(HtmlData) {
         sendMail(HtmlData); //再次发送
       }
       console.log("邮件发送成功", info.messageId);
-      console.log("静等下一次发送");
+      console.log("静等下一次发送", format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
     });
   }
 
@@ -168,7 +168,11 @@ function getAllDataAndSendMail(){
     HtmlData["lastDay"] = lastDay;
     HtmlData["todaystr"] = todaystr;
 
-    Promise.all([getOneData(),getWeatherTips(),getWeatherData()]).then(
+    Promise.all([
+        getOneData(),
+        getWeatherTips(),
+        getWeatherData()]
+    ).then(
         function(data){
             HtmlData["todayOneData"] = data[0];
             HtmlData["weatherTip"] = data[1];
@@ -177,7 +181,7 @@ function getAllDataAndSendMail(){
         }
     ).catch(function(err){
         getAllDataAndSendMail() //再次获取
-        console.log('获取数据失败： ',err);
+        console.log('获取数据失败： ',err, format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
     })
 }
 
@@ -186,10 +190,10 @@ function getAllDataAndSendMail(){
 try {
     console.log('NodeMail: 开始等待目标时刻...');
     let j = schedule.scheduleJob(RecurrenceRule, function() {
-        console.log("执行任务");
+        console.log("执行定时任务", format(new Data(), 'yyyy-MM-dd-hh-mm-ss'));
         getAllDataAndSendMail();
     });
 }catch (e) {
-    console.error(e);
+    console.error('定时任务错误', e, format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
 }
 
