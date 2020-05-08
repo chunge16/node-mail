@@ -149,11 +149,11 @@ function sendMail(HtmlData) {
     };
     transporter.sendMail(mailOptions, (error, info={}) => {
       if (error) {
-        console.log(error);
+        console.log('邮件发送失败', error);
         sendMail(HtmlData); //再次发送
       }
-      console.log("邮件发送成功", info.messageId);
-      console.log("静等下一次发送", format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+      console.log("邮件发送成功", format(new Date(), 'yyyy-MM-dd HH:mm:ss'));
+      console.log("静等下一次发送", info.messageId);
     });
   }
 
@@ -185,12 +185,11 @@ function getAllDataAndSendMail(){
     })
 }
 
-// getAllDataAndSendMail();
 
 try {
     console.log('NodeMail: 开始等待目标时刻...');
     let j = schedule.scheduleJob(RecurrenceRule, function() {
-        console.log("执行定时任务", format(new Data(), 'yyyy-MM-dd-hh-mm-ss'));
+        console.log("执行定时任务", format(new Date(), 'yyyy-MM-dd-hh-mm-ss'));
         getAllDataAndSendMail();
     });
 }catch (e) {
